@@ -2,7 +2,7 @@
   Takes care of all our meeting needs, from taking the meeting minutes, to managing upcoming discussions and it makes sure you are achieve the intent of the meeting in a better and hassle-free manner.
   
 ## Types of modes in Application :
-* Call-to-action/Consenus-aking meeting
+* Call-to-action/Consenus-asking meeting
 * Uni-directional or Monologue
 * Scrum meetings/ Reoccurrent meetings.
 
