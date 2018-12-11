@@ -6,6 +6,9 @@ import wave
 import datetime
 import sched,time
 
+FORMAT = pyaudio.paInt16
+
+
 app = Flask(__name__)
 s = sched.scheduler(time.time, time.sleep)
 
@@ -13,7 +16,7 @@ p = pyaudio.PyAudio()
 
 
 def record_audio(time):
-    stream = p.open(format=config.FORMAT,
+    stream = p.open(format=FORMAT,
                 channels=config.CHANNELS,
                 rate=config.RATE,
                 input=True,
@@ -27,7 +30,7 @@ def record_audio(time):
     file_name = config.WAVE_OUTPUT_DIR + config.CLIENT_NAME+'_'+cur_time + ".raw"
     wf = wave.open(file_name,'wb')
     wf.setnchannels(config.CHANNELS)
-    wf.setsampwidth(p.get_sample_size(config.FORMAT))
+    wf.setsampwidth(p.get_sample_size(FORMAT))
     wf.setframerate(config.RATE)
     wf.writeframes(b''.join(frames))
     wf.close()

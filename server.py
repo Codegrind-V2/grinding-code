@@ -3,7 +3,7 @@ from werkzeug import secure_filename
 import os
 import io
 import config
-import M2CU.reducio as reducio
+import reducio as reducio
 
 
 
@@ -33,7 +33,9 @@ def return_sumamry():
     text = ""
     for element in main_data:
         text += element['data']
-    reducio.reducio(text,3)
+    ans = reducio.reducio(text,3)
+    print(ans)
+    return ans
 
 
 @app.route('/upload', methods = ['POST'])
