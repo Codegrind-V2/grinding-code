@@ -12,7 +12,9 @@ def hello():
 
 @app.route('/upload', methods = ['POST'])
 def upload_file():
+    #print(request)
     if request.method == 'POST':
+        #print(request)
         file = request.files['file']
         if file:
             filename = secure_filename(file.filename)

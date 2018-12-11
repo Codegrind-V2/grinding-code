@@ -10,7 +10,13 @@ def hello():
 
 @app.route('/sendfile')
 def sendFile():
-    requests.post('http://'+config.SERER_ADDRESS+':'+config.SERVER_PORT, files={'file': ('image.jpg', open('image.jpg', 'rb'))})
+    headers = {
+    'content-type': 'image/jpeg'
+    }
+    fin = open('speech.raw', 'rb')
+    files = {'file': fin} 
+    requests.post('http://'+config.SERVER_ADDRESS+':'+config.SERVER_PORT+'/upload', files=files)
+  
     return 'success'
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-SERER_ADDRESS='localhost'
+SERVER_ADDRESS='localhost'
 SERVER_PORT='3000'
 CLIENT_PORT='3001'
 UPLOAD_LOC='./files'
