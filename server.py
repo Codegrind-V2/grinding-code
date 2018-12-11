@@ -3,6 +3,10 @@ from werkzeug import secure_filename
 import os
 import io
 import config
+import M2CU.reducio as reducio
+
+
+
 app = Flask(__name__)
 
 from google.cloud import speech
@@ -22,6 +26,14 @@ def sort_data():
     print("sorted!")
     main_data = sorted(main_data, key=lambda k: k['time'])
 
+
+
+@app.route('/getsummary',methods=['POST'])
+def return_sumamry():
+    text = ""
+    for element in main_data:
+        text += element['data']
+    reducio.reducio(text,3)
 
 
 @app.route('/upload', methods = ['POST'])
