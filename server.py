@@ -9,9 +9,19 @@ from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
 
+
+main_data = []
+
 @app.route('/')
 def hello():
      return "Hello, I'm the Server!"
+
+
+def sort_data():
+    global main_data
+    print("sorted!")
+    main_data = sorted(main_data, key=lambda k: k['time'])
+
 
 
 @app.route('/upload', methods = ['POST'])
@@ -42,16 +52,23 @@ def upload_file():
 
             # Detects speech in the audio file
             response1 = client.recognize(config_google, audio)
+            name = filename.split('_')
 
             #print('response')
             print(str(response1))
             for result in response1.results:
-                print('Transcript: {}'.format(result.alternatives[0].transcript))
-
-            
+                #print('Transcript: {}'.format(result.alternatives[0].transcript))
+                dic = {'user':name[0] , 'time':name[1].split('.')[0] , 'data':format(result.alternatives[0].transcript)}
+                print(dic)
+                main_data.append(dic)
+             
+            print(main_data)
+            sort_data()  
             return "File Uploaded!"
         else:
             return "Error"
 
+
+
 if __name__ == '__main__':
-    app.run(port=config.SERVER_PORT,debug=True)
+    app.run(port=config.SERVER_PORT,debug=True,threaded=True)

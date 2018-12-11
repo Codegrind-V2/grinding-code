@@ -1,4 +1,13 @@
+import pyaudio
+
 SERVER_ADDRESS='localhost'
 SERVER_PORT='3000'
 CLIENT_PORT='3001'
 UPLOAD_LOC='./files'
+CHUNK = 1024
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+RECORD_SECONDS = 5
+WAVE_OUTPUT_DIR = "output/"
+CLIENT_NAME='user1'

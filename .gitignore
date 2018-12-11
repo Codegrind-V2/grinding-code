@@ -2,3 +2,5 @@
 files/
 *.raw
 *.jpg
+google_creds.json
+Listener.py
