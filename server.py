@@ -4,17 +4,21 @@ import os
 import io
 import config
 import reducio as reducio
-
+from google.cloud import speech
+from google.cloud.speech import enums
+from google.cloud.speech import types
+import json
 
 
 app = Flask(__name__)
 
-from google.cloud import speech
-from google.cloud.speech import enums
-from google.cloud.speech import types
-
 
 main_data = []
+
+# main_data = [{'user':'usr1','time':'12','data':'yeah, I will take care of the resentation'},
+#              {'user':'usr1','time':'13','data':'lets catch up on Friday'},
+#              {'user':'usr2','time':'13','data':'lets catch up on Monday'},
+#              {'user':'usr1','time':'14','data':'I will take the fix the repo'}]
 
 @app.route('/')
 def hello():
@@ -25,6 +29,59 @@ def sort_data():
     global main_data
     print("sorted!")
     main_data = sorted(main_data, key=lambda k: k['time'])
+
+
+def get_words(text):
+    return text.split(' ')
+
+def match_words(w1,w2):
+    if(w1.lower()==w2.lower()):
+        return True
+    return False
+
+def check_for_prompt(text,type):
+    words = get_words(text)
+    for x in range(len(words)-1):
+        val = 0
+        for y in range(len(config.PROMPTS[type])):
+            if(match_words(words[x+y],config.PROMPTS[type][y])):
+                val += 1
+        if(val==len(config.PROMPTS[type])):
+            return True
+    return False
+
+
+def is_day(word):
+    for day in config.DAYS:
+        if(match_words(word,day)):
+            return day
+    return False
+
+@app.route('/setupmeeting')
+def setupmeeting():
+    meetings = []
+    for element in main_data:
+        text = element['data']
+        words = get_words(text)
+        if(check_for_prompt(text,'MEETING_SETUP')):
+            for x in range(len(words)):
+                if(is_day(words[x])!=False):
+                    meetings.append(is_day(words[x]))
+    #print(meetings)
+    return json.dumps(meetings)
+
+
+@app.route('/getactionpoints' , methods=['GET'])
+def get_action_points():
+    actions = []
+    username = request.args.get('user')
+    for element in main_data:
+        if(element['user']==str(username)):
+            print(element)
+            text = element['data']
+            if(check_for_prompt(text,'ACTION')):
+                actions.append(element['data'])
+    return json.dumps(actions)
 
 
 
@@ -85,4 +142,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run(port=config.SERVER_PORT,debug=True,threaded=True)
+    app.run(port=config.SERVER_PORT,debug=True,threaded=True,host='0.0.0.0')

@@ -8,3 +8,5 @@ RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_DIR = "output/"
 CLIENT_NAME='user1'
+PROMPTS={'MEETING_SETUP':['catch','up'], 'ACTION':['I','will']}
+DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday']
