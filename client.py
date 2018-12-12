@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask
 import requests
 import config
 import pyaudio
@@ -55,16 +55,6 @@ def record_audio(time):
 def hello():
     return "Hello, I'm a Client!"
 
-@app.route('/actionPoints')
-def ap():
-    return render_template('tables.html')
-
-@app.route('/dashboard')
-def db():
-    return render_template('index.html')
-
-
-print("Now listening to the microphone and recording the audio");
 s.enter(0, 1, record_audio, (config.RECORD_SECONDS,))
 s.run()
 
