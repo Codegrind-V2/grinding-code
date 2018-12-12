@@ -65,8 +65,8 @@ def db():
 
 
 print("Now listening to the microphone and recording the audio");
-#s.enter(0, 1, record_audio, (config.RECORD_SECONDS,))
-#s.run()
+s.enter(0, 1, record_audio, (config.RECORD_SECONDS,))
+s.run()
 
 
 if __name__ == '__main__':
